@@ -22,7 +22,12 @@ jobs:
     - name: Restore Dependencies
       run: dotnet restore
     - name: Publish
-      run: dotnet publish RatScanner/RatScanner.csproj -c Release -o publish -p:PublishSingleFile=true --runtime win-x64 --self-contained true
+      run: dotnet publish RatScanner/RatScanner.csproj -c Release -o publish -p:PublishSingleFile=true --runtime win-x64 --self-contained
+    - name: Include Data
+      run: |
+        curl -L "https://github.com/RatScanner/RatScannerData/releases/latest/download/Data.zip" --output publish/Data.zip
+        7z x Data.zip -oData
+        Remove-Item Data.zip
     - name: Include Updater
       run: curl -L "https://github.com/RatScanner/RatUpdater/releases/latest/download/RatUpdater.exe" --output "publish/RatUpdater.exe"
     - name: Zip Content
